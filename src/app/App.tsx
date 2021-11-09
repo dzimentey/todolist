@@ -13,6 +13,7 @@ import Container from '@mui/material/Container';
 import LinearProgress from '@mui/material/LinearProgress';
 import { Menu } from '@mui/icons-material';
 import { ErrorSnackbar } from '../components/ErrorSnackbar/ErrorSnackbar'
+import s from './liner.module.css'
 
 type PropsType = {
     demo?: boolean
@@ -33,7 +34,7 @@ function App({demo = false}: PropsType) {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
-                {status === 'loading' && <LinearProgress/>}
+                {status === 'loading' && <div className={s.linerBlock}><LinearProgress/></div>}
             </AppBar>
             <Container fixed>
                 <TodolistsList demo={demo}/>
