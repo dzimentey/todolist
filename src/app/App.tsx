@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import LinearProgress from '@mui/material/LinearProgress';
-import {Menu, Router} from '@mui/icons-material';
+import {Menu} from '@mui/icons-material';
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
 import s from './liner.module.css'
 import {BrowserRouter, Route, Routes} from "react-router-dom";
@@ -51,7 +51,7 @@ function App({demo = false}: PropsType) {
                             <Menu/>
                         </IconButton>
                         <Typography variant="h6">
-                            News
+                            Todolist
                         </Typography>
                         {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
                     </Toolbar>
