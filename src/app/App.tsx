@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {useCallback, useEffect} from 'react'
 import './App.css'
 import {TodolistsList} from '../features/TodolistsList/TodolistsList'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {AppRootStateType} from './store'
-import {RequestStatusType} from './app-reducer'
+import {initializeTC, RequestStatusType} from './app-reducer'
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -16,6 +16,8 @@ import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
 import s from './liner.module.css'
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Login} from "../features/Login/Login";
+import {Box, CircularProgress} from "@mui/material";
+import {logoutTC} from "../features/Login/login-reducer";
 
 type PropsType = {
     demo?: boolean
@@ -23,6 +25,22 @@ type PropsType = {
 
 function App({demo = false}: PropsType) {
     const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
+    const initialized = useSelector<AppRootStateType, boolean>((state) => state.app.initialized)
+    const dispatch = useDispatch()
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+
+    useEffect(() => { dispatch(initializeTC()) },[])
+
+    const logoutHandler = useCallback( () => {
+        dispatch(logoutTC())
+    },[] )
+
+    if (!initialized) {
+        return <Box sx={{display: 'flex', justifyContent: 'center', mt: 10}}>
+            <CircularProgress/>
+        </Box>
+    }
+
     return (
         <BrowserRouter>
             <div className="App">
@@ -35,7 +53,7 @@ function App({demo = false}: PropsType) {
                         <Typography variant="h6">
                             News
                         </Typography>
-                        <Button color="inherit">Login</Button>
+                        {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
                     </Toolbar>
                     {status === 'loading' && <div className={s.linerBlock}><LinearProgress/></div>}
                 </AppBar>
