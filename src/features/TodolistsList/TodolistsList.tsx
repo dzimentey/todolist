@@ -29,7 +29,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (demo || !isLoggedIn ) {
+        if (demo || !isLoggedIn ) { // if user is not loggined don't dispatch a thunk
             return;
         }
         const thunk = fetchTodolistsTC()
@@ -39,7 +39,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     const removeTask = useCallback(function (id: string, todolistId: string) {
         const thunk = removeTaskTC(id, todolistId)
         dispatch(thunk)
-    }, [])
+    }, [])  // useCallback prevents recreate a function when component will be rerendered
 
     const addTask = useCallback(function (title: string, todolistId: string) {
         const thunk = addTaskTC(title, todolistId)
